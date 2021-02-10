@@ -17,10 +17,14 @@ module Api
           else render json: {status: "ERROR", message: "ERROR: Coś poszło nie tak.", data:article.errors}, status: :unprocessable_entity
         end
       end
-
-
+      def update
+        article = Article.find(params[:id])
+        if article.update(article_params)
+          render json: {status: "SUCCESS", message: "Zaktualizowałeś pomyślnie artykuł", data:article}, status: :ok
+          else render json: {status: "ERROR", message: "Nie udało ci się zaktualizować rekordu", data:article}, status: :unprocessable_entity
+        end
+      end
       private
-
       def article_params
         params.permit(:title, :body)
       end
